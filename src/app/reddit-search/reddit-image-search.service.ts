@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { flatMap } from 'lodash';
+import { flatMap } from 'lodash-es';
 
 @Injectable()
 export class RedditImageSearchService {
