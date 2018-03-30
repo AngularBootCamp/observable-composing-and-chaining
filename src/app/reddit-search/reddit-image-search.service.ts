@@ -17,12 +17,12 @@ export class RedditImageSearchService {
   }
 }
 
-function translateRedditResults(items: any) {
+function translateRedditResults(items: any): string[] {
   // This function doesn't know anything about HTTP or Observable; it just
   // manages the messy shape of this API's data return layout.
 
   return flatMap(items.data.children,
-    ((item: {}): string[] => {
+    ((item: { [key: string]: any }): string[] => {
       if (item) {
         const data = item['data'];
         if (data) {
