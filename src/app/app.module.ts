@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { RedditSearchComponent } from './reddit-search/reddit-search.component';
-import { RedditImageSearchService } from './reddit-search/reddit-image-search.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import { RedditImageSearchService } from './reddit-search/reddit-image-search.se
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [RedditImageSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

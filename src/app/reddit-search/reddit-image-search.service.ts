@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { flatMap } from 'lodash-es';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RedditImageSearchService {
   constructor(private http: HttpClient) { }
 
