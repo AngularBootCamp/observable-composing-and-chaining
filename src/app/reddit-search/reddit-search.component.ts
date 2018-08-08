@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, of, merge, combineLatest } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
