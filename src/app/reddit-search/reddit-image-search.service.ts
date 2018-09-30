@@ -14,7 +14,7 @@ export class RedditImageSearchService {
     const url = 'https://www.reddit.com/r/' +
       subReddit +
       '/search.json?restrict_sr=on&q=' + search;
-    return this.http.get(url)
+    return this.http.get<string[]>(url)
       .pipe(map(translateRedditResults));
   }
 }
