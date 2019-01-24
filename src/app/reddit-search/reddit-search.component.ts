@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -8,15 +8,15 @@ import {
   map,
   retry,
   startWith,
-  switchMap,
-  tap
+  switchMap
 } from 'rxjs/operators';
 
 import { RedditImageSearchService } from './reddit-image-search.service';
 
 @Component({
   selector: 'reddit-search',
-  templateUrl: './reddit-search.component.html'
+  templateUrl: './reddit-search.component.html',
+  styleUrls: ['./reddit-search.component.css']
 })
 export class RedditSearchComponent {
   subReddit = new FormControl('aww');
@@ -24,34 +24,36 @@ export class RedditSearchComponent {
   results: Observable<string[]>;
 
   constructor(ris: RedditImageSearchService) {
-    const validSubReddit$ = this.subReddit.valueChanges.pipe(
-      startWith(this.subReddit.value),
-      map(sr => sr.trim()),
-      distinctUntilChanged(),
-      filter(sr => sr !== ''));
+    const validSubReddit = this.subReddit.valueChanges
+      .pipe(
+        startWith(this.subReddit.value),
+        map(sr => sr.trim()),
+        distinctUntilChanged(),
+        filter(sr => sr !== '')
+      );
 
-    const validSearch$ = this.search.valueChanges.pipe(
-      startWith(this.search.value),
-      map(search => search.trim()),
-      distinctUntilChanged(),
-      filter(search => search !== ''));
+    const validSearch = this.search.valueChanges
+      .pipe(
+        startWith(this.search.value),
+        map(search => search.trim()),
+        distinctUntilChanged(),
+        filter(search => search !== ''))
+      ;
 
-    const combinedCriteria$ = combineLatest(
-      validSubReddit$, validSearch$,
-      (subReddit, search) => ({ subReddit, search })
+    const combinedCriteria = combineLatest(validSubReddit, validSearch).pipe(
+      map(([subReddit, search]) => ({ subReddit, search }))
     );
 
-    this.results = combinedCriteria$.pipe(
-      tap(x => console.log('change', x)),
-      debounceTime(500),
-      tap(x => console.log('after debounce', x)),
-      switchMap(val =>
-        merge(
-          // Initially, show no results, while waiting.
-          of([]),
-          // Replace with results as they arrive, auto retry.
-          ris.search(val.subReddit, val.search)
-            .pipe(retry(3))
-        )));
+    this.results = combinedCriteria
+      .pipe(
+        debounceTime(500),
+        switchMap(val => ris.search(val.subReddit, val.search)
+          .pipe(
+            retry(3),
+            // Clear previous entries while waiting
+            startWith([])
+          )
+        )
+      );
   }
 }
