@@ -19,22 +19,21 @@ import { RedditImageSearchService } from './reddit-image-search.service';
   styleUrls: ['./reddit-search.component.css']
 })
 export class RedditSearchComponent {
-  subReddit = new FormControl('aww');
+  subReddits = ['aww', 'wholesomememes', 'mildlyinteresting', 'awesome'];
+  subReddit = new FormControl(this.subReddits[0]);
   search = new FormControl('');
   results: Observable<string[]>;
 
   constructor(ris: RedditImageSearchService) {
     const validSubReddit = this.subReddit.valueChanges
       .pipe(
-        startWith(this.subReddit.value),
-        map(sr => sr.trim()),
-        distinctUntilChanged(),
-        filter(sr => sr !== '')
+        startWith<string>(this.subReddit.value),
+        distinctUntilChanged()
       );
 
     const validSearch = this.search.valueChanges
       .pipe(
-        startWith(this.search.value),
+        startWith<string>(this.search.value),
         map(search => search.trim()),
         distinctUntilChanged(),
         filter(search => search !== ''))

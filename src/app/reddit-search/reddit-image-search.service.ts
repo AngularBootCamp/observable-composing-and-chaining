@@ -24,7 +24,7 @@ function translateRedditResults(items: any): string[] {
   // manages the messy shape of this API's data return layout.
 
   return flatMap(items.data.children,
-    ((item: { [key: string]: any }): string[] => {
+    ((item: Record<string, string>): string[] => {
       if (item) {
         const data = item['data'];
         if (data) {

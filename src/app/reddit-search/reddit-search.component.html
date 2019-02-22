@@ -1,7 +1,9 @@
 <div class="three-across">
   <div>
     <label for="subReddit">Search reddit.com/r/</label>
-    <input id="subReddit" type="text" placeholder="validate" [formControl]="subReddit">
+    <select id="subReddit" [formControl]="subReddit">
+      <option *ngFor="let sr of subReddits" [value]="sr">{{sr}}</option>
+    </select>
   </div>
   <div>
     <label for="search">for images containing:</label>
