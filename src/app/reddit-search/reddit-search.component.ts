@@ -31,21 +31,21 @@ export class RedditSearchComponent {
 
   constructor(ris: RedditImageSearchService) {
     const validSubReddit = this.subReddit.valueChanges.pipe(
-      startWith<string>(this.subReddit.value),
+      startWith(this.subReddit.value as string),
       distinctUntilChanged()
     );
 
     const validSearch = this.search.valueChanges.pipe(
-      startWith<string>(this.search.value),
+      startWith(this.search.value as string),
       map(search => search.trim()),
       distinctUntilChanged(),
       filter(search => search !== '')
     );
 
-    const combinedCriteria = combineLatest(
+    const combinedCriteria = combineLatest([
       validSubReddit,
       validSearch
-    ).pipe(map(([subReddit, search]) => ({ subReddit, search })));
+    ]).pipe(map(([subReddit, search]) => ({ subReddit, search })));
 
     this.results = combinedCriteria.pipe(
       debounceTime(500),
