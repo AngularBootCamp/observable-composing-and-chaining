@@ -14,7 +14,7 @@
 </div>
 
 <div>
-  <div class="box" *ngFor="let url of results | async">
-    <img [src]="url" />
+  <div class="box" *ngFor="let post of results | async">
+    <img [src]="post.thumbnail" [alt]="post.title" />
   </div>
 </div>

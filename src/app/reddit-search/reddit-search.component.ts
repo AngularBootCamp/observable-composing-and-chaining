@@ -11,7 +11,10 @@ import {
   switchMap
 } from 'rxjs/operators';
 
-import { RedditImageSearchService } from './reddit-image-search.service';
+import {
+  RedditImageSearchService,
+  RedditResult
+} from './reddit-image-search.service';
 
 @Component({
   selector: 'reddit-search',
@@ -27,17 +30,17 @@ export class RedditSearchComponent {
   ];
   subReddit = new FormControl(this.subReddits[0]);
   search = new FormControl('');
-  results: Observable<string[]>;
+  results: Observable<RedditResult[]>;
 
   constructor(ris: RedditImageSearchService) {
     const validSubReddit = this.subReddit.valueChanges.pipe(
-      startWith(this.subReddit.value as string),
-      distinctUntilChanged()
+      startWith<string>(this.subReddit.value as string)
     );
 
     const validSearch = this.search.valueChanges.pipe(
-      startWith(this.search.value as string),
+      startWith<string>(this.search.value as string),
       map(search => search.trim()),
+      debounceTime(200),
       distinctUntilChanged(),
       filter(search => search !== '')
     );
@@ -48,7 +51,6 @@ export class RedditSearchComponent {
     ]).pipe(map(([subReddit, search]) => ({ subReddit, search })));
 
     this.results = combinedCriteria.pipe(
-      debounceTime(500),
       switchMap(val =>
         ris.search(val.subReddit, val.search).pipe(
           retry(3),
