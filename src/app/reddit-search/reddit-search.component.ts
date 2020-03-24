@@ -45,14 +45,9 @@ export class RedditSearchComponent {
       filter(search => search !== '')
     );
 
-    const combinedCriteria = combineLatest([
-      validSubReddit,
-      validSearch
-    ]).pipe(map(([subReddit, search]) => ({ subReddit, search })));
-
-    this.results = combinedCriteria.pipe(
-      switchMap(val =>
-        ris.search(val.subReddit, val.search).pipe(
+    this.results = combineLatest([validSubReddit, validSearch]).pipe(
+      switchMap(([subReddit, search]) =>
+        ris.search(subReddit, search).pipe(
           retry(3),
           // Clear previous entries while waiting
           startWith([])
