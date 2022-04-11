@@ -38,10 +38,10 @@ function translateRedditResults(items: any): RedditResult[] {
     items.data.children,
     (item: Record<string, string>): RedditResult[] => {
       if (item) {
-        const data = item['data'];
-        if (data) {
-          const thumbnail = data['thumbnail'];
-          const title = data['title'];
+        const itemData = item['data'];
+        if (itemData) {
+          const thumbnail = itemData['thumbnail'];
+          const title = itemData['title'];
           if (thumbnail.startsWith('http')) {
             return [{ thumbnail, title }];
           }
