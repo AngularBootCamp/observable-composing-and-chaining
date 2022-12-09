@@ -28,17 +28,19 @@ export class RedditSearchComponent {
     'mildlyinteresting',
     'awesome'
   ];
-  subReddit = new FormControl(this.subReddits[0]);
-  search = new FormControl('');
+  subReddit = new FormControl(this.subReddits[0], {
+    nonNullable: true
+  });
+  search = new FormControl('', { nonNullable: true });
   results: Observable<RedditResult[]>;
 
   constructor(ris: RedditImageSearchService) {
     const validSubReddit = this.subReddit.valueChanges.pipe(
-      startWith<string>(this.subReddit.value as string)
+      startWith(this.subReddit.value)
     );
 
     const validSearch = this.search.valueChanges.pipe(
-      startWith<string>(this.search.value as string),
+      startWith(this.search.value),
       map(search => search.trim()),
       debounceTime(200),
       distinctUntilChanged(),
