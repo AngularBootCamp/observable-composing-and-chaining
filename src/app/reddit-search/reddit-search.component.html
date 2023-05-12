@@ -1,16 +1,17 @@
-<div class="three-across">
-  <div>
-    <label for="subReddit">Search reddit.com/r/</label>
+<div class="form-fields">
+  <label for="subReddit">
+    Search reddit.com/r/
     <select id="subReddit" [formControl]="subReddit">
       <option *ngFor="let sr of subReddits" [value]="sr">
         {{ sr }}
       </option>
     </select>
-  </div>
-  <div>
-    <label for="search">for images containing:</label>
+  </label>
+
+  <label for="search">
+    for images containing:
     <input id="search" type="text" [formControl]="search" />
-  </div>
+  </label>
 </div>
 
 <div>
