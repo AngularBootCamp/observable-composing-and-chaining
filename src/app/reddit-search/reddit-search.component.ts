@@ -12,10 +12,8 @@ import {
   switchMap
 } from 'rxjs';
 
-import {
-  RedditImageSearchService,
-  RedditResult
-} from './reddit-image-search.service';
+import { RedditImageSearchService } from './reddit-image-search.service';
+import { ImageMetadata } from './types';
 
 @Component({
   selector: 'app-reddit-search',
@@ -33,7 +31,7 @@ export class RedditSearchComponent {
     nonNullable: true
   });
   search = new FormControl('', { nonNullable: true });
-  results: Observable<RedditResult[]>;
+  results: Observable<ImageMetadata[]>;
 
   constructor(ris: RedditImageSearchService) {
     const validSubReddit = this.subReddit.valueChanges.pipe(
