@@ -19,7 +19,7 @@ import { ImageMetadata } from './types';
 @Component({
   selector: 'app-reddit-search',
   templateUrl: './reddit-search.component.html',
-  styleUrls: ['./reddit-search.component.scss'],
+  styleUrl: './reddit-search.component.scss',
   standalone: true,
   imports: [ReactiveFormsModule, NgFor, AsyncPipe]
 })
